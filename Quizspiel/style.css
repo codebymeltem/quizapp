@@ -1,0 +1,129 @@
+.loading-state {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    /* Vertikal zentriert */
+    align-items: center;        /* Horizontal zentriert */
+    gap: 20px;                 /* Abstand zwischen Elementen */
+}
+
+.loading-title {
+    font-size: 60px !important;
+    margin-top: 10px !important;   
+    transform: scale(1.1);       
+}
+
+.loading-logo img {
+    transform: scale(1.2);       
+}
+
+.loader {
+    width: 40px;                
+    height: 40px;               
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-top: 20px;           /* Abstand nach oben */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none;
+}
+
+
+.content {
+    display: none;
+}
+
+.background-dark {
+    background: linear-gradient(145deg, #1a1a1a, #333333, #4d4d4d, #333333, #1a1a1a);
+    margin: 0;
+    min-height: 100vh;  
+    margin: 0;
+    padding: 0;
+}
+
+.title {
+    position: fixed;  
+    top: 80px;       /* Abstand von oben */
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    z-index: 2;      /* Höherer z-index als das Bild */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+
+}
+
+.logo {
+  position: fixed;
+  z-index: 1;
+    top: 0%;          
+    left: 0%;         
+    width: 30px;     
+    eight: 25px;    
+    object-fit: contain;
+}
+
+.logo img {
+    position: fixed;
+    z-index: 1;
+    top: 5%;
+    left: 30%;
+    width: 40%;
+    height: 20%
+}
+
+.start-button-container {
+    position: fixed;
+    bottom: 400px;
+    left: 55px;
+    white-space: nowrap;  /* Verhindert Zeilenumbruch */
+}
+
+.start-buttons-container {
+    position: fixed;
+    bottom: 100px;          
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;             /* Abstand zwischen den Buttons */
+    justify-content: center;
+    
+   
+}
+
+.start-button {
+    padding: 15px 25px;
+    font-size: 28px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid white;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 10px;  /* Abstand zwischen Icon und Text */
+}
+
+.start-button i {
+    font-size: 20px;  /* Größe der Icons */
+}
+
+.hidden {
+    display: none !important;
+}

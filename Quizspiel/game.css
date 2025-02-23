@@ -1,0 +1,58 @@
+.title {
+    color: white;
+    text-align: center;
+    margin-top: 50px;
+    font-size: 80px;
+}
+
+
+.category-buttons {
+
+    position: fixed;          
+    left: 50%;
+    top: 70%;
+    transform: translate(-50%, -50%);   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.category-button {
+    display: flex;           
+    align-items: center;     
+    justify-content: flex-start;
+    padding: 20px 60px;
+    padding-left: 130px; 
+    font-size: 60px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 650px;
+}
+
+
+.category-button i {
+    font-size: 55px;
+    position: absolute;    
+    left: 40px;           /* Feste Position von links */
+    transform: translateY(-1px);
+}
+
+
+.category-button:hover {
+    transform: scale(1.05);
+    transition: all 0.3s;
+}
+
+.correct {
+    background-color: rgba(0, 255, 0, 0.3) !important; /* Grün für richtige Antwort */
+    border-color: #00ff00 !important;
+}
+
+.incorrect {
+    background-color: rgba(255, 0, 0, 0.3) !important; /* Rot für falsche Antwort */
+    border-color: #ff0000 !important;
+}

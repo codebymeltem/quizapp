@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duell Übersicht</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .overview-container {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .score-container {
+            margin-top: 30px;
+            font-size: 24px;
+        }
+
+        .player-score {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .continue-button {
+            margin-top: 40px;
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid white;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .continue-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .category-name {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body class="background-dark">
+    <div class="overview-container">
+        <div class="category-name">Religion Quiz</div>
+        
+        <div class="score-container">
+            <div class="player-score">
+                Spieler 1: <span id="player1-score">0</span> von 3 Punkten
+            </div>
+            <div class="player-score">
+                Spieler 2: <span id="player2-score">Noch nicht gespielt</span>
+            </div>
+        </div>
+
+        <button class="continue-button" onclick="continueGame()">Weiter</button>
+    </div>
+
+    <script>
+        // Punkte aus dem localStorage holen
+        const player1Score = localStorage.getItem('player1Score') || 0;
+        const currentPlayer = localStorage.getItem('currentPlayer');
+        
+        // Punkte anzeigen
+        document.getElementById('player1-score').textContent = player1Score;
+
+        function continueGame() {
+            if (currentPlayer === '1') {
+                // Starte Spieler 2
+                localStorage.setItem('currentPlayer', '2');
+                window.location.href = 'religion.html';
+            } else {
+                // Beide Spieler fertig, zur nächsten Kategorie
+                window.location.href = 'next-category.html'; 
+            }
+        }
+    </script>
+</body>
+</html>

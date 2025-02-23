@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wissenschaft Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="quiz.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .icon-container {
+            margin-top: 95px;
+            position: relative;
+            text-align: center;
+        }
+
+        .fa-flask {
+            font-size: 80px;
+            color: white;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body class="background-dark">
+    <div class="quiz-container">
+        <div class="icon-container">
+            <i class="fas fa-flask"></i>
+            <div class="progress-rings">
+                <div class="ring"></div>
+                <div class="ring"></div>
+                <div class="ring"></div>
+            </div>
+        </div>
+
+        <div class="question-container" id="question-text"></div>
+        
+        <div class="answers-grid" id="answers-container"></div>
+    </div>
+
+    <div class="timer-container">
+        <div class="timer-bar"></div>
+    </div>
+
+    <div class="next-hint" id="nextHint">Weiterklicken für nächste Frage</div>
+
+    <script src="science-questions.js"></script>
+    <script>
+        function shuffleQuestions(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        let questions = shuffleQuestions([...scienceQuestions.questions]);
+        let currentQuestion = 0;
+        let canProceedToNext = false;
+        let currentRing = 0;
+        const timerBar = document.querySelector('.timer-bar');
+        const rings = document.querySelectorAll('.ring');
+        const nextHint = document.getElementById('nextHint');
+
+        function showQuestion(index) {
+            nextHint.classList.remove('visible');
+            
+            if (index >= questions.length || currentRing >= 3) {
+                const correctAnswers = document.querySelectorAll('.ring[style*="background-color: rgb(0, 255, 0)"]').length;
+                localStorage.setItem('player1Score', correctAnswers);
+                window.location.href = 'duel-overview.html';
+                return;
+            }
+
+            const question = questions[index];
+            const questionText = document.getElementById('question-text');
+            const answersContainer = document.getElementById('answers-container');
+            
+            const shuffledAnswers = shuffleQuestions([...question.antworten]);
+
+            questionText.textContent = question.frage;
+            answersContainer.innerHTML = '';
+            
+            shuffledAnswers.forEach(answer => {
+                const button = document.createElement('button');
+                button.className = 'answer-button';
+                button.textContent = answer;
+                answersContainer.appendChild(button);
+            });
+
+            addButtonListeners();
+            resetTimer();
+        }
+
+        function addButtonListeners() {
+            const buttons = document.querySelectorAll('.answer-button');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function handleClick() {
+                    if (canProceedToNext) return;
+                    
+                    if (currentRing >= 3) {
+                        const correctAnswers = document.querySelectorAll('.ring[style*="background-color: rgb(0, 255, 0)"]').length;
+                        localStorage.setItem('player1Score', correctAnswers);
+                        window.location.href = 'duel-overview.html';
+                        return;
+                    }
+
+                    timerBar.style.animationPlayState = 'paused';
+                    canProceedToNext = true;
+                    nextHint.classList.add('visible');
+
+                    buttons.forEach(btn => btn.classList.remove('correct', 'incorrect'));
+            
+                    if (this.textContent === questions[currentQuestion].richtigeAntwort) {
+                        this.classList.add('correct');
+                        rings[currentRing].style.backgroundColor = '#00ff00';
+                        rings[currentRing].style.borderColor = '#00ff00';
+                    } else {
+                        this.classList.add('incorrect');
+                        rings[currentRing].style.backgroundColor = '#ff0000';
+                        rings[currentRing].style.borderColor = '#ff0000';
+                        buttons.forEach(btn => {
+                            if (btn.textContent === questions[currentQuestion].richtigeAntwort) {
+                                btn.classList.add('correct');
+                            }
+                        });
+                    }
+
+                    currentRing++;
+
+                    if (currentRing >= 3) {
+                        setTimeout(() => {
+                            const correctAnswers = document.querySelectorAll('.ring[style*="background-color: rgb(0, 255, 0)"]').length;
+                            localStorage.setItem('player1Score', correctAnswers);
+                            window.location.href = 'duel-overview.html';
+                        }, 1000);
+                        return;
+                    }
+
+                    setTimeout(() => {
+                        document.body.addEventListener('click', function nextQuestion() {
+                            if (canProceedToNext) {
+                                currentQuestion++;
+                                showQuestion(currentQuestion);
+                                document.body.removeEventListener('click', nextQuestion);
+                            }
+                        });
+                    }, 100);
+
+                    button.removeEventListener('click', handleClick);
+                });
+            });
+        }
+
+        function resetTimer() {
+            timerBar.style.animation = 'none';
+            timerBar.offsetHeight;
+            timerBar.style.animation = 'countdown 12s linear forwards';
+            timerBar.style.animationPlayState = 'running';
+            canProceedToNext = false;
+
+            timerBar.addEventListener('animationend', function() {
+                if (currentRing >= 3) {
+                    const correctAnswers = document.querySelectorAll('.ring[style*="background-color: rgb(0, 255, 0)"]').length;
+                    localStorage.setItem('player1Score', correctAnswers);
+                    window.location.href = 'duel-overview.html';
+                    return;
+                }
+
+                const buttons = document.querySelectorAll('.answer-button');
+                
+                rings[currentRing].style.backgroundColor = '#ff0000';
+                rings[currentRing].style.borderColor = '#ff0000';
+                currentRing++;
+                
+                buttons.forEach(btn => {
+                    if (btn.textContent === questions[currentQuestion].richtigeAntwort) {
+                        btn.classList.add('correct');
+                    }
+                });
+                
+                canProceedToNext = true;
+                nextHint.classList.add('visible');
+
+                if (currentRing >= 3) {
+                    setTimeout(() => {
+                        const correctAnswers = document.querySelectorAll('.ring[style*="background-color: rgb(0, 255, 0)"]').length;
+                        localStorage.setItem('player1Score', correctAnswers);
+                        window.location.href = 'duel-overview.html';
+                    }, 1000);
+                    return;
+                }
+
+                document.body.addEventListener('click', function nextQuestion() {
+                    if (canProceedToNext) {
+                        currentQuestion++;
+                        showQuestion(currentQuestion);
+                        document.body.removeEventListener('click', nextQuestion);
+                    }
+                });
+            });
+        }
+
+        showQuestion(currentQuestion);
+    </script>
+</body>
+</html>

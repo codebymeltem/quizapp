@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+
+<body class="background-dark">
+
+
+    <div class="loading-state">
+        <h1 class="title loading-title">QuizArena</h1>
+        <div class="logo loading-logo">
+            <img src="img/logo.png">
+        </div>
+        <div class="loader"></div>
+    </div>
+
+    <!-- Normal State (initially hidden) -->
+    <div class="normal-state hidden">
+        <div>
+            <h1 class="title">QuizArena</h1>
+        </div>
+        <div class="logo">
+            <img src="img/logo.png">
+        </div>
+        
+        <!-- Erster Button -->
+        <div class="start-button-container">
+            <button class="start-button" onclick="showGameOptions()">
+                Neues Spiel starten
+            </button>
+        </div>
+
+        <div class="start-buttons-container hidden">
+            <button class="start-button" onclick="window.location.href='game.html'">
+                <i class="fas fa-random"></i>
+                Zufällig
+            </button>
+            <button class="start-button" onclick="window.location.href='friends.html'">
+                <i class="fas fa-users"></i>
+                Freunde
+            </button>
+        </div>
+    
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.loading-state').style.display = 'none';
+                document.querySelector('.normal-state').classList.remove('hidden');
+            }, 2000);
+        });
+
+        function showGameOptions() {
+            document.querySelector('.start-button-container').style.display = 'none';
+            document.querySelector('.start-buttons-container').classList.remove('hidden');
+        }
+    </script>
+
+
+</body>
+
+</html>
